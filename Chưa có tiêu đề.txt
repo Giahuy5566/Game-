@@ -1,0 +1,554 @@
+--[[
+
+// Misery Source || v1.0.5
+// Hi calls || << >>
+
+]]--
+
+print("=")
+
+--// Initialize
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
+print("=")
+  
+  if (not LPH_OBFUSCATED) then
+      LPH_NO_VIRTUALIZE = function(...) return (...) end;
+      LPH_JIT_MAX = function(...) return (...) end;
+      LPH_JIT_ULTRA = function(...) return (...) end;
+  end
+
+  print("CheckPoint 1")
+  
+  --// Custom Drawing
+  -- loadstring((syn and syn.request or request)({Url = "https://rentry.co/7osf4/raw", Method = "Get"}).Body)(); -- J4VZ9cJh
+  local MainColor = Color3.fromRGB(255, 102, 204)
+  local CrosshairHandler = loadstring(game:HttpGet('https://rentry.co/y36dzarh/raw', true))() do
+    getgenv().crosshair.enabled = false
+    getgenv().crosshair.color = MainColor
+  end
+  local ESPHandler = loadstring(game:HttpGet('https://rentry.co/t44o2pao/raw', true))() do
+    getgenv().esp.Enabled = false
+    getgenv().esp.SkeletonEnabled = false
+    getgenv().esp.ChamsEnabled = false
+  end
+
+  local YunDrawingApi = loadstring(game:HttpGet('https://raw.githubusercontent.com/caIIed/Librarys/main/Yun%20Api.lua', true))()
+
+  local TargetCircle = YunDrawingApi:New3DCircle() do
+    TargetCircle.Visible = false
+    TargetCircle.ZIndex = 1
+    TargetCircle.Transparency = 1
+    TargetCircle.Color = MainColor
+    TargetCircle.Thickness = 1
+    TargetCircle.Radius = 2
+    TargetCircle.Rotation = Vector2.new(2, 0)
+end
+  
+  --// Services
+  local Workspace = game:GetService("Workspace")
+  local Debris            = game:GetService('Debris');
+  local Players = game:GetService("Players")
+  local UserInputService = game:GetService('UserInputService')
+  local TweenService = game:GetService('TweenService')
+  local ContextAction = game:GetService('ContextActionService')
+  local Lighting = game:GetService('Lighting')
+  local MarketPlace = game:GetService('MarketplaceService')
+  local RunService = game:GetService('RunService')
+  local ReplicatedStorage = game:GetService('ReplicatedStorage')
+  
+  --// Variables
+
+  print("CheckPoint 2")
+  
+  local Target = nil
+  local Notification_Icon = "rbxassetid://57254792"
+  
+  
+  local Notifications = {};
+  local Utility = {};
+  local TracerLine, nigganiggaXD , FakeHitboxPart, DotParent, newBillboard, newFrame, newUiCornor = Drawing.new("Line"), Instance.new("MeshPart"), Instance.new("Part",game.Workspace), Instance.new("Part",game.Workspace), Instance.new("BillboardGui", DotParent), Instance.new("Frame", newBillboard),  Instance.new("UICorner", newFrame)
+  local sayMessage = function(msg) ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "ALL") end
+  task.spawn(function ()
+    newBillboard.Name = "endless"
+    newBillboard.Adornee = DotParent
+    newBillboard.Size = UDim2.new(1, 0, 1, 0)
+    newBillboard.AlwaysOnTop = true
+    newFrame.Size = UDim2.new(1, 0, 1, 0)
+    newFrame.BackgroundTransparency = 0
+    newUiCornor.CornerRadius = UDim.new(50, 50)
+    DotParent.CanCollide = false
+    DotParent.Anchored = true
+    DotParent.CFrame = CFrame.new(0,2000,0)
+    DotParent.Transparency = 1
+    nigganiggaXD.CanCollide = false
+    nigganiggaXD.Anchored = true
+    nigganiggaXD.Material = Enum.Material.Neon
+    nigganiggaXD.Parent = game.Workspace
+  end)
+  
+  local AntiAimViewer_Enabled = false
+  local AntiAimViewer_HighLight = false
+  local AntiAimViewer_HighLight_OutLineColor = Color3.fromRGB(255, 255, 255)
+  local AntiAimViewer_HighLight_FillColor = MainColor
+  
+  local AntiAimViewer_Color = Color3.fromRGB(255, 102, 204)
+  local AntiAimViewer_Target = nil
+  local AntiAimViewer_Method = "MousePos"
+  
+  local Client = Players.LocalPlayer
+  local ClientCharacter = Client and (Client.Character or Client.CharacterAdded:Wait())
+  local enabled, TargetFalling, DetectAnti, AntiGroundValue, WhenAntiGroundActivate, Script = false, false, true, 0.5, -20, {
+    Drawing = {},
+    Connections = {},
+    Locals = {
+        NetworkShouldSleep = false,
+        OriginalVelocity = {}
+    },
+    Functions = {}
+}
+  local Mouse, Camera = Client:GetMouse(), game:GetService("Workspace").CurrentCamera
+  local PreviousPosition, PreviusVelocity = Vector3.new(0,0,0), Vector3.new(0,0,0)
+  local req =  (syn and syn.request or request);
+  local CFrameSpeedKeyBind
+  local flyvariableshit = false
+  local chatSpamTick = tick()
+  local GuiService   = game:GetService('GuiService');
+  local GetGuiInset = GuiService.GetGuiInset
+
+
+  local EnabledTrashTalkF = true;
+  getgenv().UsableTrashTalk = false
+  
+  
+  local raycastParams = RaycastParams.new()
+  raycastParams.FilterDescendantsInstances = {Workspace.CurrentCamera, ClientCharacter}
+  raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+  raycastParams.IgnoreWater = true
+  
+  --// Tables
+  local Notifications = {};
+  local Utility = {};
+  local FoVCircle = Drawing.new('Circle') do
+    FoVCircle.Radius       = 1500
+    FoVCircle.Color        = MainColor
+    FoVCircle.Filled       = false
+    FoVCircle.NumSides     = 120
+    FoVCircle.Transparency = 1
+    FoVCircle.Visible      = false
+end
+
+local TeleportService = game:GetService("TeleportService");
+local Desync = {}
+
+local Notifications = {};
+local Utility = {};
+
+local List = {
+    [16469595315] = {'Del Hood Aim', 'UpdateMousePos', 'MainEvent'},
+    [17319408836] = {'OG Da Hood', 'UpdateMousePos', 'MainEvent'},
+    [14975320521] = {'Ar Hood', 'UpdateMousePos', 'MainEvent'},
+    [17200018150] = {'Hood Of AR', 'UpdateMousePos', 'MainEvent'},
+    [15644861772] = {'Flame Hood', 'UpdatQeMousePos', 'MainEvent'},
+    [17723797487] = {'Dee Hood', 'UpdateMousePosI', 'MainEvent'},
+    [17897702920] = {'Og Da Hood', 'UpdateMousePos', 'MainEvent'},
+    [17809101348] = {'New Hood', 'UpdateMousePos', 'MainEvent'},
+    [17344804827] = {'Yeno Hood', 'UpdateMousePos', 'MainEvent'},
+    [16435867341] = {'Mad Hood', 'UpdateMousePos', 'MainEvent'},
+    [14412601883] = {'Hood Bank', 'MOUSE', 'MAINEVENT'},
+    [14412436145] = {'Da Uphill', 'MOUSE', 'MAINEVENT'},
+    [14487637618] = {'Da Hood Bot Aim Trainer', 'MOUSE', 'MAINEVENT'},
+    [11143225577] = {'1v1 Hood Aim Trainer', 'UpdateMousePos', 'MainEvent'},
+    [14413712255] = {'Hood Aim', 'MOUSE', 'MAINEVENT'},
+    [12927359803] = {'Dah Aim Trainer', 'UpdateMousePos', 'MainEvent'},
+    [12867571492] = {'Katana Hood', 'UpdateMousePos', 'MainEvent'},
+    [11867820563] = {'Dae Hood', 'UpdateMousePos', 'MainEvent'},
+    [17109142105] = {'Da Battles', 'MoonUpdateMousePos', 'MainEvent'},
+    [15186202290] = {'Da Strike', 'MOUSE', 'MAINEVENT'},
+    [2788229376] = {'Da Hood', 'UpdateMousePosI', 'MainEvent'},
+    [16033173781] = {'Da Hood Macro', 'UpdateMousePosI', 'MainEvent'},
+    [7213786345] = {'Da Hood VC', 'UpdateMousePosI', 'MainEvent'},
+    [9825515356] = {'Hood Customs', 'MousePosUpdate', 'MainEvent'},
+    [17895632819] = {'Hood Spirit', 'UpdateMousePos', 'MainEvent'},
+    [5602055394] = {'Hood Modded', 'MousePos', 'Bullets'},
+    [7951883376] = {'Hood Modded VC', 'MousePos', 'Bullets'},
+    [9183932460] = {'Untitled Hood', 'UpdateMousePos', '.gg/untitledhood'},
+    [14412355918] = {'Da Downhill', 'MOUSE', 'MAINEVENT'}
+}
+
+local ItemTable = {
+    ['Guns'] = {
+        ['LMG'] = '[LMG] - $3978';
+        ['AK-47'] = '[AK47] - $2387';
+        ['Silencer AR'] = '[SilencerAR] - $1326';
+        ['Silencer'] = '[Silencer] - $583';
+        ['Revolver'] = '[Revolver] - $1379';
+        ['AR'] = '[AR] - $1061';
+        ['AUG'] = '[AUG] - $2069';
+        ['Double-Barrel'] = '[Double-Barrel SG] - $1432';
+        ['Drum Gun'] = '[DrumGun] - $3183';
+        ['Flamethrower'] = '[Flamethrower] - $15914';
+        ['Glock'] = '[Glock] - $318';
+        ['P90'] = '[P90] - $1061';
+        ['RPG'] = '[RPG] - $6365';
+        ['Rifle'] = '[Rifle] - $1644';
+        ['SMG'] = '[SMG] - $796';
+        ['Shotgun'] = '[Shotgun] - $1326';
+        ['Tactical Shotgun'] = '[TacticalShotgun] - $1857';
+    };
+
+    ['Ammo'] = {
+        ['LMG'] = '200 [LMG Ammo] - $318';
+        ['AK-47'] = '90 [AK47 Ammo] - $85';
+        ['Silencer AR'] = '120 [SilencerAR Ammo] - $80';
+        ['Silencer'] = '25 [Silencer Ammo] - $53';
+        ['Revolver'] = '12 [Revolver Ammo] - $80';
+        ['AR'] = '100 [AR Ammo] - $80';
+        ['AUG'] = '90 [AUG Ammo] - $85';
+        ['Double-Barrel'] = '18 [Double-Barrel SG Ammo] - $53';
+        ['Drum Gun'] = '100 [DrumGun Ammo] - $212';
+        ['Flamethrower'] = '140 [Flamethrower Ammo] - $1644';
+        ['Glock'] = '25 [Glock Ammo] - $64';
+        ['P90'] = '120 [P90 Ammo] - $64';
+        ['RPG'] = '5 [RPG Ammo] - $1061';
+        ['Rifle'] = '5 [Rifle Ammo] - $265';
+        ['SMG'] = '80 [SMG Ammo] - $64';
+        ['Shotgun'] = '20 [Shotgun Ammo] - $64';
+        ['Tactical Shotgun'] = '20 [TacticalShotgun Ammo] - $64';
+    };
+
+    ['Armor'] = {
+        ['High'] = '[High-Medium Armor] - $2440';
+        ['Medium'] = '[Medium Armor] - $1061';
+        ['Fire'] = '[Fire Armor] - $2493';
+    };
+};
+
+  local AssetTable = {
+      Sounds = {
+          ['None']         = '',
+          ['OSU']          = 'rbxassetid://7147454322',
+          ['Neverlose']    = 'rbxassetid://7216848832',
+          ['Bameware']     = 'rbxassetid://3124331820',
+          ['Hitmarker']    = 'rbxassetid://160432334',
+          ['skeet']        = 'rbxassetid://4817809188',
+          ['Rust']         = 'rbxassetid://5043539486',
+          ['Lazer Beam']   = 'rbxassetid://130791043',
+          ['Bow Hit']      = 'rbxassetid://1053296915',
+          ['Bow']          = 'rbxassetid://3442683707',
+          ['TF2 Hitsound'] = 'rbxassetid://3455144981',
+          ['TF2 Critical'] = 'rbxassetid://296102734',
+      };
+      Textures = {
+          ['Normal'] = 'rbxassetid://7151778302',
+          ['Fog'] = 'rbxassetid://9150635648',
+      };
+  };
+  
+  local ItemTableValues = {Sounds = {}, Guns = {}, Ammo = {}}; do 
+  
+      for i, v in pairs(AssetTable.Sounds) do
+          table.insert(ItemTableValues.Sounds, i)
+      end
+
+      for i, v in pairs(ItemTable.Guns) do 
+        table.insert(ItemTableValues.Guns, i)
+    end 
+
+    for i, v in pairs(ItemTable.Ammo) do 
+        table.insert(ItemTableValues.Ammo, i)
+    end 
+  
+  end 
+  
+  local Settings = {
+    ['AntiAim'] = {
+        ['InvisibleDesync'] = { ['Enabled'] = false;
+            ['X'] = {['Start'] = -16000; ['End'] = 16000;};
+            ['Y'] = {['Start'] = -16000; ['End'] = 16000;};
+            ['Z'] = {['Start'] = -16000; ['End'] = 16000;};
+        }
+    },
+
+    ['Destroy Cheaters'] = {
+        Enabled = false,
+        Keybind = Enum.KeyCode.G,
+    };
+
+    ['Combat'] = {
+        ['TargetLock'] = {
+            Enabled = false,
+            Predict = true,
+            KeyBind = Enum.KeyCode.T,
+            Prediction = 0.135,
+            HitParts = 'HumanoidRootPart',
+            NearestPart = false,
+            HitPartMode = 'Nearest Point',
+            Notifications = false,
+        },
+        ['Stuff'] = {
+            LookAt = false,
+            Spectate = false,
+            Notification = false,
+            AutoPrediction = true,
+        },
+        ['Checks'] = {
+            Resolver = true,
+            ResolverMethod = 'Recaculate',
+            AimviewerBypass = true,
+            NoGroundShots = true,
+            Knocked = true,
+            Grabbed = false,
+            Friend = false,
+            Crew = false,
+            AntiCurve = true,
+            WallCheck = true,
+        },
+        ['Visuals'] = {
+            ['Line'] = {
+                Enabled = true,
+                Circle = true,
+                Visible = true,
+                Color = MainColor,
+                Transparency = 1,
+                Thickness = 2,
+            },
+            ['HighLight'] = {
+                Enabled = true,
+                Transparency = 0,
+                FillColor = MainColor,
+                OutLineColor = Color3.fromRGB(255, 255, 255),
+            },
+            ['BackTrack'] = {
+                Enabled = true,
+                Material = 'ForceField',
+                Color = MainColor,
+                Delay = 0.1,
+                Transparency = 0,
+            },
+        },
+    };
+  
+    ['Visuals'] = {
+        ['Weapon_Chams'] = {
+            Enabled = false,
+            Material = Enum.Material.SmoothPlastic,
+            Color = MainColor,
+        },
+        ['Character_Chams'] = {
+            Enabled = false,
+            Material = Enum.Material.ForceField,
+            Color = MainColor,
+
+            Trail = false,
+            Trail_Color = MainColor,
+            Trail_Life = 3,
+        },
+        ['World_Customization'] = {
+            Enabled = false,
+
+            Bars = false,
+            BarsColor = MainColor,
+        },
+        ['Bullet_Trails'] = {
+            Enabled = false,
+            Magnitude = 12,
+            Width = 1.7,
+            Brightness = 5,
+            Segments = 10,
+            LightEmission = 10,
+            Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(240, 175, 235)), ColorSequenceKeypoint.new(1, Color3.fromRGB(240, 175, 235))}),
+            Speed = 3,
+            Texture = 'Normal', -- 12781803086
+        },
+        ['Hit_Detection'] = {
+          Enabled = false,
+  
+          Notify = true,
+          Clone = true,
+          Pulse = false,
+          Sound = true,
+          HitSound = 'Rust',
+        },
+    };
+  
+    ['Misc'] = {
+        ['Auto_Buy'] = {
+            Gun = 'LMG',
+        },
+        ['Random'] = {
+            AutoStomp = false,
+            AntiBag = false,
+            NoJumpCooldown = false,
+            NoSlow = false,
+            NoRecoil = false,
+        },
+        ['Cash'] = {
+            AutoDrop = false,
+            Amount = 8000,
+            AutoPick = false,
+        },
+        ['NetworkAnti'] = {
+            Enabled = false,
+            Notification = true,
+            Keybind = Enum.KeyCode.K
+        },
+        ['PredictionDisabler'] = {
+            Enabled = false,
+            KeyBind = Enum.KeyCode.X,
+            Notifications = false,
+            Errors = false,
+            AutoWalkSpeed = false,
+            AnimationSpeed = 21,
+            WalkSpeed = 12,
+        },
+        ['TargetStrafe'] = {
+            Enabled = false,
+            Visualize_Circle = false,
+            Color = Color3.fromRGB(255, 194, 254),
+            Distance = 9,
+            Speed = 1,
+            Height = 0,
+  
+            Method = 'Strafe', -- Strafe, Randomize
+            RandomizeMin = 2,
+            RandomizeMax = 17,
+
+            AutoFire = true,
+            AutoReload = true,
+        },
+        ['Fly'] = {
+            Enabled = false,
+            Notification = false,
+            KeyBind = Enum.KeyCode.X,
+            Speed = 5 * 50,
+        },
+        ['WalkSpeed'] = {
+            Enabled = false,
+            Notifications = false,
+            KeyBind = Enum.KeyCode.X,
+            Speed = 1,
+        },
+        ['TrashTalk'] = {
+            ['Use'] = {
+                Enabled = false,
+                Target = false,
+                Notification = false,
+                UsekeyBind = false,
+                KeyBind = Enum.KeyCode.B,
+                Method = "Misery",
+            },
+            ['Words'] = {
+                Misery = {"do you have $$$$mmMMIIEERRY!!!", "MoveDirection isn't a resolver", "Skid🤣", "WHERE BRO AIMING AT!?", "Lost 2 Misery", "omg so bad", "imagine dying to me", "whats the point of playing with that aim🙏😂", "WOWZIES", "OH MY DAYS", "Misery'd", "1d luh bro", "WOW U SUCK", "Im right here😂", "couldnt be me", "just broke ur ankles", "UR ANKLES? GONE?", "destroyed", "LOL DESTROYED", "LOL"},
+            },
+        },
+    };
+  
+    ['Configs'] = {
+        Menu = {
+            Keybind = Enum.KeyCode.P,
+        },
+    };
+  };
+  
+  print("CheckPoint 3")
+  
+  
+  getgenv().MethodBeingUsed = Settings.Misc.TrashTalk.Words.Misery
+  
+  -- // functions
+
+function Script.Functions.Connection(event, func)
+    return event:Connect(func)
+end
+
+local function DestroyCheaters()
+    Settings['Destroy Cheaters'].Enabled = not Settings['Destroy Cheaters'].Enabled;
+
+    if Settings['Destroy Cheaters'].Enabled then
+        local Character = Client and Client.Character
+        if Character then
+            local RootPart = Character and Character:FindFirstChild('HumanoidRootPart')
+            local Position = RootPart and RootPart.CFrame
+    
+            task.wait()
+
+            while task.wait(2) do
+                Desync.cframe = (RootPart.CFrame * CFrame.new(9e9, 0/0, 9e9))
+        
+                task.wait(1)
+    
+                Desync.cframe = Position
+                task.wait()
+                Desync.cframe = nil
+            end
+
+        end
+
+    end
+end
+
+Script.Functions.Update_Desync = function(bool)
+    Settings.AntiAim.InvisibleDesync.Enabled = bool 
+
+    if (not bool) then 
+        if (Script.Connections['Invisible Desync']) then 
+            Script.Connections['Invisible Desync']:Disconnect()
+            Script.Connections['Invisible Desync'] = nil 
+        end
+
+        setfflag('S2PhysicsSenderRate', 15)
+        setfflag('PhysicsSenderMaxBandwidthBps', 38760)
+        sethiddenproperty(Client.Character.HumanoidRootPart, "NetworkIsSleeping", false)
+    end
+end
+
+
+--[[
+
+Script.Functions.InvisibleDesync = function()   
+    local NetworkShouldSleep = false
+    if not Script.Connections["Invisible Desync"] then
+        Script.Connections["Invisible Desync"] = Script.Functions.Connection(RunService.Heartbeat, function()
+            if (not Settings.AntiAim.InvisibleDesync.Enabled) then return end 
+
+            Script.Locals.NetworkShouldSleep = not Script.Locals.NetworkShouldSleep
+            setfflag("S2PhysicsSenderRate", tostring(2)) 
+            setfflag("PhysicsSenderMaxBandwidthBps", tostring(math.pi/3))
+
+            sethiddenproperty(Client.Character.HumanoidRootPart, "NetworkIsSleeping", Script.Locals.NetworkShouldSleep)
+            Script.Locals.OriginalVelocity[1] = Client.Character.HumanoidRootPart.Velocity
+            Script.Locals.OriginalVelocity[2] = Client.Character.HumanoidRootPart.AssemblyLinearVelocity
+
+            Client.Character.HumanoidRootPart.Velocity = Client.Character.HumanoidRootPart.Velocity + Vector3.new(math.random(Settings.AntiAim.InvisibleDesync.X['Start'], Settings.AntiAim.InvisibleDesync.X['End']), math.random(Settings.AntiAim.InvisibleDesync.Y['Start'], Settings.AntiAim.InvisibleDesync.Y['End']), math.random(Settings.AntiAim.InvisibleDesync.Z['Start'], Settings.AntiAim.InvisibleDesync.Z['End']))
+            Client.Character.HumanoidRootPart.AssemblyLinearVelocity = Client.Character.HumanoidRootPart.AssemblyLinearVelocity + Vector3.new(math.random(Settings.AntiAim.InvisibleDesync.X['Start'], Settings.AntiAim.InvisibleDesync.X['End']), math.random(Settings.AntiAim.InvisibleDesync.Y['Start'], Settings.AntiAim.InvisibleDesync.Y['End']), math.random(Settings.AntiAim.InvisibleDesync.Z['Start'], Settings.AntiAim.InvisibleDesync.Z['End']))
+
+            RunService.RenderStepped:Wait()
+
+            Client.Character.HumanoidRootPart.Velocity = Script.Locals.OriginalVelocity[1]
+            Client.Character.HumanoidRootPart.AssemblyLinearVelocity = Script.Locals.OriginalVelocity[2]
+            setfflag("S2PhysicsSenderRate", tostring(1))
+            NetworkShouldSleep = not NetworkShouldSleep
+        end)
+    end
+    RunService.RenderStepped:Wait()
+    sethiddenproperty(Client.Character.HumanoidRootPart, "NetworkIsSleeping", NetworkShouldSleep)
+    setfflag("S2PhysicsSenderRate", tostring(15))
+end
+
+Script.Functions.InvisibleDesync()
+]]
+local function ToggleTrail(Bool)
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") then
+            if Bool then
+                local BlaBla = Instance.new("Trail", v)
+                BlaBla.Texture = "rbxassetid://1390780157"
+                BlaBla.Parent = v
+                local Pointer1 = Instance.new("Attachment", v)
+                Pointer1.Name = "Pointer1"
+                local Pointer2 = Instance.new("Attachment", game.Players.LocalPlayer.Character.HumanoidRootPart)
+                Pointer2.Name = "Pointer2"
+                BlaBla.At
